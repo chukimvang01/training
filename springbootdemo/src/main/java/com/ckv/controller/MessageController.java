@@ -26,6 +26,8 @@ public class MessageController {
 	@Autowired
 	private IMessageService iMessageService;
 
+	
+	
 	@GetMapping("mess/{id}")
 	public ResponseEntity<Message> getArticleById(@PathVariable("id") Integer id) {
 		Message m = iMessageService.getMessageById(id);

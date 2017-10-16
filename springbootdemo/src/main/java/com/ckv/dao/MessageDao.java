@@ -18,6 +18,8 @@ import com.ckv.entity.Message;
 @Transactional
 @Repository
 public class MessageDao implements IMessageDao{
+//	@Autowired
+//	MessageRepository messageRepository;
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -41,12 +43,25 @@ public class MessageDao implements IMessageDao{
 			}
 
 		});
+//		return messageRepository.findAll();
 	}
 
 	@Override
 	public Message getMessageById(int id) {
 		
-		return null;
+		String query ="select * from hello where id="+id;
+		return jdbcTemplate.query(query,new ResultSetExtractor<Message>(){
+
+			public Message extractData(ResultSet rs) throws SQLException, DataAccessException {
+				Message m=new Message();
+				while(rs.next()){
+					m.setId(rs.getInt(1));
+					m.setMessage(rs.getString(2));
+					m.setLanguage(rs.getString(3));
+				}
+				return m;
+			}
+		});
 	}
 
 	@Override

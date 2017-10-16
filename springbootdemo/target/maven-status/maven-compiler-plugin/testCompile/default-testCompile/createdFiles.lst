@@ -1,0 +1,5 @@
+com\ckv\testjpa\TestJpa.class
+com\ckv\testservice\TestService.class
+springbootdemo\ServiceJunit.class
+com\ckv\testapi\TestApi.class
+com\ckv\testservice\TestService$ServiceTestContextConfiguration.class

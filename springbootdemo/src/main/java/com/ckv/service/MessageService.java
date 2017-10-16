@@ -5,45 +5,58 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ckv.dao.IMessageDao;
+import com.ckv.dao.MessageRepository;
 import com.ckv.entity.Message;
 
 @Service
 public class MessageService implements IMessageService {
-
 	@Autowired
-	private IMessageDao daoMessage;
+	MessageRepository messageRepository;
+	
+//	@Autowired
+//	private IMessageDao daoMessage;
 
 	@Override
 	public List<Message> getAllMessage() {
 
-		return daoMessage.getAllMessage();
+		return messageRepository.findAll();
 	}
 
 	@Override
 	public Message getMessageById(int id) {
 
-		return daoMessage.getMessageById(id);
+		return messageRepository.findOne(id);
 	}
 
 	@Override
 	public synchronized boolean addMessage(Message m) {
-		if (daoMessage.checkMessageExists(m.getMessage())) {
+//		List<Message> check=messageRepository.checkExistMessage(m.getMessage());
+		String check=messageRepository.checkExistMessage(m.getMessage());
+		if (!check.isEmpty()) {
 			return false;
 		}
-		daoMessage.addMessage(m);
-		return true;
+//		daoMessage.addMessage(m);
+		Message c=messageRepository.save(m);
+		if (c!=null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean updateMessage(Message m) {
-
-		return daoMessage.updateMessage(m);
+		Message c=messageRepository.findOne(m.getId());
+		if (c==null) {
+			return false;
+		}
+		messageRepository.save(m);
+		return true;
 	}
 
 	@Override
 	public boolean deleteMessage(int id) {
-		return daoMessage.deleteMessage(id);
+		messageRepository.delete(id);
+		return true;
 	}
 
 }
