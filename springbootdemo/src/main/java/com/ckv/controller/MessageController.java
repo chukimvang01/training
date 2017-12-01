@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ckv.entity.Message;
@@ -58,12 +60,13 @@ public class MessageController {
 	}
 
 	@DeleteMapping("mess/{id}")
-	public ResponseEntity<Void> deleteArticle(@PathVariable("id") Integer id) {
+	public ResponseEntity<Void> deleteArticle(@PathVariable("id" ) Integer id) {
 		iMessageService.deleteMessage(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 	@GetMapping("hello")
-	public ResponseEntity<String> getHello(){
+	//uri="localhost:8989/message/hello/name="vangck""
+	public ResponseEntity<String> getHello(@RequestParam(value = "name") String name){
 		return new ResponseEntity<String>("Hello",HttpStatus.OK);
 	}
 }
